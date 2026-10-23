@@ -14,10 +14,13 @@ dist-ssr/
 *.tar.bz2
 *.deb
 
+<<<<<<< HEAD
 # Banco de dados local SQLite
 nemesis.db
 **/nemesis/nemesis.db
 
+=======
+>>>>>>> a5307b1f7aaa65d698261560419d6bbd6589b6eb
 # Ambiente local
 .env
 .env.local
