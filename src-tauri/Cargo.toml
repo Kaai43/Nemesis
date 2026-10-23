@@ -1,0 +1,27 @@
+[package]
+name = "nemesis"
+version = "0.1.0"
+edition = "2021"
+description = "Nemesis — MVP com Tauri + React, tema escuro, conta e painel RPG"
+
+[dependencies]
+# Contrato Tauri IPC
+tauri = { version = "2", features = [] }
+tauri-build = { version = "2", features = [] }
+
+# Serialização dos comandos de IPC e do estado RPG
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# UUID para identificar usuários e registros
+uuid = { version = "1", features = ["v4", "serde"] }
+
+# PostgreSQL — banco local para salvar dados do usuário
+tokio-postgres = { version = "0.7", features = ["with-uuid-1", "with-serde_json-1"] }
+tokio = { version = "1", features = ["full"] }
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[profile.release]
+opt-level = 2

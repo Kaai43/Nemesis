@@ -1,0 +1,387 @@
+/* ==========================================================================
+   Nemesis — Tema escuro padrão (dark theme)
+   ========================================================================== */
+:root {
+  /* Cores principais */
+  --bg: #0b0e13;
+  --bg-surface: #11161e;
+  --bg-surface-lift: #161d27;
+  --bg-hover: #1c2531;
+
+  /* Texto */
+  --text-primary: #e6e9ee;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-accent: #7dd3fc;
+
+  /* Acentos */
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-soft: rgba(59, 130, 246, 0.12);
+
+  /* RPG */
+  --rpg-gold: #fbbf24;
+  --rpg-xp: #a855f7;
+  --rpg-hp: #ef4444;
+  --rpg-border: #1f2937;
+
+  /* Utilitários */
+  --radius: 10px;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  --transition: all 0.2s ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, 'Noto Sans', sans-serif;
+  overflow: hidden;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   Layout principal
+   ========================================================================== */
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Barra superior */
+.topbar {
+  height: 56px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--rpg-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  flex-shrink: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.brand .mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), #818cf8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #fff;
+  box-shadow: 0 0 14px rgba(59, 130, 246, 0.35);
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-surface-lift);
+  border: 1px solid var(--rpg-border);
+  border-radius: 999px;
+  padding: 4px 12px 4px 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.account:hover {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+}
+
+.account .avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #ec4899);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.account .info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.account .name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.account .role {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.account .chevron {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--rpg-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+
+/* Conteúdo principal */
+.main {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  gap: 40px;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Hero — "Em Construção"
+   ========================================================================== */
+.hero {
+  text-align: center;
+  max-width: 420px;
+}
+
+.hero .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--accent-soft);
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--text-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.12);
+}
+
+.hero h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Painel RPG (nível, xp, ouro, etc.)
+   ========================================================================== */
+.rpg-panel {
+  width: min(340px, 32vw);
+  max-width: 360px;
+  flex-shrink: 0;
+}
+
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--rpg-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-title .icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--bg-surface-lift);
+  border: 1px solid var(--rpg-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.rpg-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.rpg-stat:last-child {
+  margin-bottom: 0;
+}
+
+.rpg-stat .label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.rpg-stat .value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.rpg-stat .value.gold {
+  color: var(--rpg-gold);
+}
+
+.rpg-stat .value.level {
+  color: var(--text-accent);
+}
+
+/* Barra de XP */
+.xp-track {
+  width: 100%;
+  height: 7px;
+  background: var(--bg-hover);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--rpg-border);
+  margin-top: 6px;
+}
+
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--rpg-xp), #c084fc);
+  border-radius: 999px;
+  width: 0%;
+  transition: width 0.6s ease;
+}
+
+.xp-text {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Utilitários / estados de carga
+   ========================================================================== */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+}
+
+.section-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+/* Scrollbar discreta */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-hover);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--rpg-border);
+}
+
+/* Responsivo básico */
+@media (max-width: 900px) {
+  .main {
+    flex-direction: column;
+    height: auto;
+    padding: 24px 16px;
+    gap: 30px;
+    overflow-y: auto;
+  }
+  .rpg-panel {
+    width: 100%;
+    max-width: none;
+  }
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+}
