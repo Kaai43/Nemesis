@@ -15,7 +15,7 @@ mod game_state;
 mod os_hooks;
 // 5 · Vivaldi WS Bridge — ponte WebSocket para telemetria/automação do Vivaldi
 mod vivaldi_bridge;
-// 6 · Banco de dados local (PostgreSQL)
+// 6 · Banco de dados local (SQLite — embutido, sem servidor externo)
 mod database;
 
 use database::DbState;
@@ -52,6 +52,20 @@ pub struct SaveUserNameResponse {
     pub message: String,
 }
 
+#[derive(Debug, Serialize)]
+pub struct UserProfileResponse {
+    pub success: bool,
+    pub profile: Option<database::UserProfile>,
+    pub message: String,
+}
+
+#[derive(Debug, Serialize)]
+pub struct GameSaveResponse {
+    pub success: bool,
+    pub save: Option<database::GameSave>,
+    pub message: String,
+}
+
 /// Retorna metadados da aplicação (ex.: nome e versão).
 #[tauri::command]
 fn get_app_info() -> AppInfo {
@@ -75,20 +89,80 @@ fn get_game_state(state: State<'_, Mutex<GameState>>) -> RpgStatus {
     }
 }
 
-/// Salva o nome do usuário no PostgreSQL local.
+/// Salva o nome do usuário no SQLite local.
 #[tauri::command]
-async fn save_user_name(db: State<'_, DbState>, user_name: String) -> Result<SaveUserNameResponse, String> {
-    match db.save_user_name(&user_name).await {
-        Ok(user_id) => Ok(SaveUserNameResponse {
+fn save_user_name(db: State<'_, DbState>, user_name: String) -> SaveUserNameResponse {
+    match db.save_user_name(&user_name) {
+        Ok(user_id) => SaveUserNameResponse {
             success: true,
-            user_id: Some(user_id.to_string()),
+            user_id: Some(user_id.clone()),
             message: "Nome salvo com sucesso.".into(),
-        }),
-        Err(e) => Ok(SaveUserNameResponse {
+        },
+        Err(e) => SaveUserNameResponse {
             success: false,
             user_id: None,
             message: e,
-        }),
+        },
+    }
+}
+
+/// Retorna o perfil do usuário salvo no banco local.
+#[tauri::command]
+fn get_user_profile(db: State<'_, DbState>) -> UserProfileResponse {
+    match db.get_user_profile() {
+        Ok(profile) => UserProfileResponse {
+            success: true,
+            profile,
+            message: "Perfil obtido com sucesso.".into(),
+        },
+        Err(e) => UserProfileResponse {
+            success: false,
+            profile: None,
+            message: e,
+        },
+    }
+}
+
+/// Salva o estado atual do jogo no banco local.
+#[tauri::command]
+fn save_game_state_cmd(
+    db: State<'_, DbState>,
+    user_id: String,
+    level: i32,
+    xp: i32,
+    xp_to_next: i32,
+    gold: i32,
+    hp: i32,
+    max_hp: i32,
+) -> GameSaveResponse {
+    match db.save_game_state(&user_id, level, xp, xp_to_next, gold, hp, max_hp) {
+        Ok(()) => GameSaveResponse {
+            success: true,
+            save: None,
+            message: "Jogo salvo com sucesso.".into(),
+        },
+        Err(e) => GameSaveResponse {
+            success: false,
+            save: None,
+            message: e,
+        },
+    }
+}
+
+/// Retorna o último save do jogo para o usuário.
+#[tauri::command]
+fn get_game_save(db: State<'_, DbState>, user_id: String) -> GameSaveResponse {
+    match db.get_game_save(&user_id) {
+        Ok(save) => GameSaveResponse {
+            success: true,
+            save,
+            message: "Save obtido com sucesso.".into(),
+        },
+        Err(e) => GameSaveResponse {
+            success: false,
+            save: None,
+            message: e,
+        },
     }
 }
 
@@ -98,12 +172,15 @@ fn main() {
         .manage(Mutex::new(GameState::default()))
         // Ganchos de SO (idle, input, janela, atalhos globais)
         .manage(OsHooks::default())
-        // Banco de dados local (PostgreSQL) — compartilhado entre tarefas async
+        // Banco de dados local (SQLite — embutido, sem servidor externo)
         .manage(Arc::new(Database::new()) as DbState)
         .invoke_handler(tauri::generate_handler![
             get_app_info,
             get_game_state,
-            save_user_name
+            save_user_name,
+            get_user_profile,
+            save_game_state_cmd,
+            get_game_save,
         ])
         .setup(|app| {
             let app_handle = app.handle();
@@ -115,22 +192,19 @@ fn main() {
             // 5 · Vivaldi WS Bridge: inicialização da ponte WebSocket (esqueleto).
             // vivaldi_bridge::start(app_handle.clone());
 
-            // 6 · Banco de dados: tenta conectar ao PostgreSQL local.
-            // Se não estiver disponível, o app continua em modo degradado (memória apenas).
+            // 6 · Banco de dados: conecta ao SQLite local.
             let db_state: DbState = app_handle.state::<DbState>().inner().clone();
-            tauri::async_runtime::spawn(async move {
-                match db_state.connect().await {
-                    Ok(true) => {
-                        println!("[nemesis] PostgreSQL conectado com sucesso.");
-                    }
-                    Ok(false) => {
-                        println!("[nemesis] PostgreSQL não disponível. Modo degradado (memória apenas).");
-                    }
-                    Err(e) => {
-                        eprintln!("[nemesis] Erro ao conectar ao PostgreSQL: {e}");
-                    }
+            match db_state.connect() {
+                Ok(true) => {
+                    println!("[nemesis] SQLite conectado com sucesso.");
                 }
-            });
+                Ok(false) => {
+                    println!("[nemesis] SQLite não disponível. Modo degradado (memória apenas).");
+                }
+                Err(e) => {
+                    eprintln!("[nemesis] Erro ao conectar ao SQLite: {e}");
+                }
+            }
 
             Ok(())
         })

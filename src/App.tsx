@@ -4,6 +4,7 @@ import { Account } from './components/Account';
 import { Hero } from './components/Hero';
 import { RpgPanel } from './components/RpgPanel';
 import { Welcome } from './components/Welcome';
+import { Options } from './components/Options';
 import './components/Welcome.css';
 
 interface AppInfo {
@@ -32,10 +33,10 @@ export default function App() {
   });
   const [userName, setUserName] = useState<string | null>(null);
   const [hasSeenWelcome, setHasSeenWelcome] = useState<boolean | null>(null);
+  const [optionsOpen, setOptionsOpen] = useState(false);
 
   useEffect(() => {
     const init = async () => {
-      // Verifica se já foi visto o welcome (salvo localmente)
       try {
         const seen = localStorage.getItem('nemesis.seenWelcome') === '1';
         setHasSeenWelcome(seen);
@@ -74,6 +75,19 @@ export default function App() {
     setHasSeenWelcome(true);
   };
 
+  const handleLogout = () => {
+    // Limpa dados locais e volta para a tela de boas-vindas
+    try {
+      localStorage.removeItem('nemesis.seenWelcome');
+      localStorage.removeItem('nemesis.userName');
+    } catch {
+      // ignorar
+    }
+    setUserName(null);
+    setHasSeenWelcome(false);
+    setOptionsOpen(false);
+  };
+
   // Se ainda não carregou o estado de welcome, não renderiza nada
   if (hasSeenWelcome === null) {
     return null;
@@ -90,11 +104,15 @@ export default function App() {
               <div className="mark">N</div>
               <div>{appInfo ? appInfo.name : 'Nemesis'}</div>
             </div>
-            <Account
-              userName={userName || 'Usuário'}
-              userRole="Jogador"
-              avatar={userName ? userName.charAt(0).toUpperCase() : 'U'}
-            />
+            <div className="account-group">
+              <Account
+                userName={userName || 'Usuário'}
+                userRole="Jogador"
+                avatar={userName ? userName.charAt(0).toUpperCase() : 'U'}
+                onLogout={handleLogout}
+              />
+              <Options isOpen={optionsOpen} onClose={() => setOptionsOpen(false)} />
+            </div>
           </header>
 
           <main className="main">

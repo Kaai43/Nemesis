@@ -1,17 +1,24 @@
-# Dependencies
+# Dependências
 node_modules/
-/.pnp
+.pnp
 .pnp.js
 
 # Build
 dist/
 dist-ssr/
-src-tauri/target/
-src-tauri/gen/
+*.local
 *.AppImage
 *.AppDir
+*.tar.gz
+*.tar.xz
+*.tar.bz2
+*.deb
 
-# Local env files
+# Banco de dados local SQLite
+nemesis.db
+**/nemesis/nemesis.db
+
+# Ambiente local
 .env
 .env.local
 .env.*.local
@@ -27,7 +34,9 @@ src-tauri/gen/
 Thumbs.db
 
 # Tauri
-src-tauri/target/release/bundle/
+src-tauri/target/
+src-tauri/gen/
 
 # Cargo
 /Cargo.lock
+/target/

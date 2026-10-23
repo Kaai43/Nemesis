@@ -1,136 +1,83 @@
-# Nemesis
+# Nemesis — Controlador Extremo de Estudos (Anti-TDAH)
 
-MVP visual de um app **Tauri v2 + React** com tema escuro padrão, área de conta no canto superior direito, aviso "Em Construção" no centro e um painel de progresso RPG ao lado.
+**Nemesis** é um aplicativo desktop nativo (Rust + Tauri v2 + React) projetado para ajudar pessoas com TDAH a manter o foco nos estudos. Ele funciona como um controlador extremo de produtividade, rodando localmente no seu computador, sem enviar dados para servidores externos.
 
-Este esqueleto já contempla a orientação das 5 skills:
-1. **Tauri IPC Contract** — comandos tipados (`get_app_info`, `get_game_state`) expostos ao frontend via `invoke`.
-2. **Surgical Diff Coder** — alterações mínimas, escopadas e revisáveis; nada de dependências desnecessárias.
-3. **OS Hooks (Rust)** — módulo `os_hooks.rs` preparado para idle/AFK, input global, janela ativa, atalhos globais e sleep/resume.
-4. **Idle RPG State Machine** — `game_state.rs`: estado autoritário, ticks determinísticos (`grant_xp`, `level_up`, `tick_idle`) com testes.
-5. **Vivaldi WS Bridge** — módulo `vivaldi_bridge.rs` esqueleto para ponte WebSocket com o Vivaldi (próxima fase).
+## Objetivo
 
----
+Criar um ambiente de estudo livre de distrações, com:
+- **Tela de boas-vindas** personalizada (primeira execução)
+- **Tema escuro** como padrão para reduzir cansaço visual
+- **Área de conta** no canto superior direito
+- **Painel de progresso RPG** (nível, XP, ouro, vida) para gamificação de estudos
+- **Persistência local** via PostgreSQL (tudo fica no seu PC)
 
-## Estrutura do projeto
+## Stack
+
+- **Frontend:** React 18 + TypeScript + Vite
+- **Backend:** Rust + Tauri v2
+- **Banco local:** PostgreSQL (tabelas `users` e `game_saves`)
+- **Empacotamento:** AppImage (Linux)
+
+## Primeira execução
+
+Ao abrir o aplicativo pela primeira vez, aparece a tela:
+
+> **Bem-vindo, como podemos te chamar?**
+
+Você digita seu nome, clica em "Começar" e ele é salvo localmente (PostgreSQL ou `localStorage` como fallback).
+
+## Estrutura
 
 ```
 Nemesis/
-├── package.json              # frontend (Vite + React + TS)
-├── vite.config.ts            # build do frontend -> ../dist
-├── tsconfig.json
-├── index.html
-├── README.md
-├── dist/                     # gerado por `npm run build` (feito)
-├── src/                      # frontend React
-│   ├── main.tsx
+├── src/                 # Frontend React
 │   ├── App.tsx
-│   ├── index.css             # tema escuro (CSS vars)
+│   ├── main.tsx
+│   ├── index.css        # Tema escuro (CSS vars)
 │   └── components/
-│       ├── Account.tsx       # conta (canto superior direito)
-│       ├── Account.css
-│       ├── Hero.tsx          # "Em construção"
-│       └── RpgPanel.tsx      # nível, XP, ouro, vida
-└── src-tauri/                # backend Rust (Tauri v2)
-    ├── Cargo.toml
-    ├── tauri.conf.json
-    ├── icons/
-    └── src/
-        ├── main.rs           # setup, invoke handler, gerencia estado
-        ├── game_state.rs     # máquina de estado RPG
-        ├── os_hooks.rs       # ganchos de SO (esqueleto)
-        └── vivaldi_bridge.rs # ponte Vivaldi (esqueleto)
+│       ├── Account.tsx      # Conta (canto superior direito)
+│       ├── Hero.tsx         # "Em construção"
+│       ├── RpgPanel.tsx     # Nível, XP, ouro, vida
+│       └── Welcome.tsx      # Tela de boas-vindas (primeira vez)
+├── src-tauri/           # Backend Rust (Tauri v2)
+│   ├── Cargo.toml
+│   ├── tauri.conf.json
+│   ├── build.rs
+│   ├── icons/
+│   └── src/
+│       ├── main.rs          # IPC + setup + PostgreSQL
+│       ├── game_state.rs    # Máquina de estado RPG (idle)
+│       ├── os_hooks.rs      # Ganchos de SO (esqueleto)
+│       ├── vivaldi_bridge.rs# Ponte Vivaldi (esqueleto)
+│       └── database.rs      # PostgreSQL local (users, game_saves)
+├── dist/                # Build do frontend (gerado)
+└── README.md
 ```
 
----
-
-## Pré-requisitos (na sua máquina Linux)
-
-- **Node.js** ≥ 18 e **npm**
-- **Rust** (via rustup): `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y`
-- **Tauri CLI**: `cargo install tauri-cli --version 2`
-
-## Dependências de sistema (Linux / Debian/Ubuntu) — exigem `sudo`
-
-O backend Tauri precisa dos cabeçalhos de desenvolvimento do WebKitGTK/dbus. No Debian/Ubuntu:
+## Como buildar (Linux)
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y \
-  pkg-config \
-  libdbus-1-dev \
-  libwebkit2gtk-4.0-dev \
-  libjavascriptcoregtk-4.0-dev \
-  libgtk-3-dev \
-  libappindicator3-dev \
-  librsvg2-dev \
-  patchelf \
-  curl wget
-```
-
-Para gerar **AppImage**, o bundler do Tauri no Linux usa `appimagetool` + `linuxdeploy`. Instale os binários (sem precisar de root, basta colocar no `PATH`):
-
-```bash
-# appimagetool
-wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-chmod +x appimagetool-x86_64.AppImage
-sudo mv appimagetool-x86_64.AppImage /usr/local/bin/appimagetool
-
-# linuxdeploy
-wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-chmod +x linuxdeploy-x86_64.AppImage
-sudo mv linuxdeploy-x86_64.AppImage /usr/local/bin/linuxdeploy
-```
-
----
-
-## Como buildar e gerar o AppImage
-
-No diretório raiz do projeto (`Nemesis/`):
-
-```bash
-# 1) Instala dependências do frontend
+# Pré-requisitos: Node.js, Rust, cargo-tauri, pkg-config e dev-headers (webkit, gtk, dbus, etc.)
 npm install
-
-# 2) Build do frontend (gera dist/ na raiz)
 npm run build
-
-# 3) Build do app Tauri e empacotamento (inclui AppImage se appimagetool/linuxdeploy estiverem presentes)
 cd src-tauri
 cargo tauri build
 ```
 
-O AppImage resultante fica em:
+O AppImage será gerado em:
+`src-tauri/target/release/bundle/appimage/Nemesis_0.1.0_amd64.AppImage`
 
-```
-src-tauri/target/release/bundle/appimage/nemesis_0.1.0_amd64.AppImage
-```
-
-Você pode executar diretamente:
+## PostgreSQL (opcional, para persistência completa)
 
 ```bash
-chmod +x src-tauri/target/release/bundle/appimage/nemesis_0.1.0_amd64.AppImage
-./src-tauri/target/release/bundle/appimage/nemesis_0.1.0_amd64.AppImage
+sudo apt-get install -y postgresql postgresql-contrib
+sudo -u postgres psql -c "CREATE USER nemesis WITH PASSWORD 'nemesis';"
+sudo -u postgres psql -c "CREATE DATABASE nemesis OWNER nemesis;"
+sudo -u postgres psql -d nemesis -c "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";"
 ```
 
----
+Se o PostgreSQL não estiver disponível, o app continua funcionando em modo degradado (dados apenas na memória/localStorage).
 
-## Estado deste esqueleto (MVP)
+## Licença
 
-- ✅ Tema escuro como padrão (CSS variáveis em `src/index.css`)
-- ✅ Barra superior com área de conta (canto superior direito) — componente `Account`
-- ✅ Centro com "Em Construção" — componente `Hero`
-- ✅ Painel RPG ao lado (Nível, XP, Ouro, Vida) — componente `RpgPanel`
-- ✅ Frontend compila com `npm run build` (saída em `dist/`)
-- ✅ Contratos de IPC tipados (`get_app_info`, `get_game_state`)
-- ✅ Estado RPG autoritário com ticks determinísticos (`game_state.rs`)
-- ✅ Módulos-esqueleto de OS Hooks e Vivaldi WS Bridge
-- ⏳ Compilação do backend e geração do AppImage: bloqueada neste sandbox por falta de `root` para instalar `pkg-config` + dev-headers do WebKitGTK. Rode os comandos acima na sua máquina para completar.
-
----
-
-## Próximos passos (integração)
-
-- Conectar os comandos de IPC do Tauri ao estado RPG real.
-- Implementar `os_hooks.rs` (idle/AFK, input global, janela ativa, atalhos).
-- Implementar `vivaldi_bridge.rs` (extensão MV3 + canal WebSocket + reconexão).
-- Salvar/carregar estado com versionamento (máquina de estado idle).
+Privado — uso pessoal.
