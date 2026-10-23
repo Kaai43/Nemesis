@@ -30,13 +30,5 @@
       "icons/128x128@2x.png"
     ]
   },
-  "plugins": {
-    "log": {
-      "level": "debug",
-      "rotation": {
-        "max-size": 1024,
-        "max-files": 5
-      }
-    }
-  }
+  "plugins": {}
 }
