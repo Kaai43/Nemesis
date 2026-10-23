@@ -1,0 +1,42 @@
+{
+  "productName": "Nemesis",
+  "version": "0.1.0",
+  "identifier": "com.nemesis.app",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Nemesis",
+        "width": 1000,
+        "height": 700,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["appimage"],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png"
+    ]
+  },
+  "plugins": {
+    "log": {
+      "level": "debug",
+      "rotation": {
+        "max-size": 1024,
+        "max-files": 5
+      }
+    }
+  }
+}
