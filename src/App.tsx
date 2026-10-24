@@ -5,7 +5,9 @@ import { Hero } from './components/Hero';
 import { RpgPanel } from './components/RpgPanel';
 import { Welcome } from './components/Welcome';
 import { Sobre } from './components/Sobre';
+import { CriarNovoPerfil } from './components/NewProfile/CriarNovoPerfil';
 import './components/Welcome.css';
+import './components/NewProfile/CriarNovoPerfil.css';
 
 interface AppInfo {
   name: string;
@@ -34,6 +36,7 @@ export default function App() {
   const [userName, setUserName] = useState<string | null>(null);
   const [hasSeenWelcome, setHasSeenWelcome] = useState<boolean | null>(null);
   const [sobreOpen, setSobreOpen] = useState(false);
+  const [criarNovoPerfilOpen, setCriarNovoPerfilOpen] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -100,13 +103,8 @@ export default function App() {
       ) : (
         <>
           <header className="topbar">
-            {/* Ícone do app no canto superior esquerdo */}
-            <div className="app-icon">
-              <img src="/nemesis.jpg" alt="Nemesis" className="app-icon-img" />
-            </div>
-
-            <div className="brand">
-              <div className="mark">N</div>
+            <div className="brand" onClick={() => setSobreOpen(true)}>
+              <img src="/nemesis.jpg" alt="Nemesis" className="brand-icon" />
               <div>{appInfo ? appInfo.name : 'Nemesis'}</div>
             </div>
 
@@ -116,7 +114,6 @@ export default function App() {
                 userRole="Jogador"
                 avatar={userName ? userName.charAt(0).toUpperCase() : 'U'}
                 onLogout={handleLogout}
-                onSobre={() => setSobreOpen(true)}
               />
             </div>
           </header>
@@ -133,8 +130,14 @@ export default function App() {
             />
           </main>
 
-          {/* Sobre — aba aberta ao clicar no menu conta > Sobre */}
+          {/* Sobre — aba aberta ao clicar no ícone Nemesis ou no menu conta > Sobre */}
           <Sobre isOpen={sobreOpen} onClose={() => setSobreOpen(false)} />
+
+          {/* Criar Novo Perfil — esqueleto, ainda não integrado na conta */}
+          <CriarNovoPerfil
+            isOpen={criarNovoPerfilOpen}
+            onClose={() => setCriarNovoPerfilOpen(false)}
+          />
         </>
       )}
     </div>

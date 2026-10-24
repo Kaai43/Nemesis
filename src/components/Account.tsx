@@ -6,10 +6,9 @@ interface AccountProps {
   userRole: string;
   avatar: string;
   onLogout: () => void;
-  onSobre: () => void;
 }
 
-export function Account({ userName, userRole, avatar, onLogout, onSobre }: AccountProps) {
+export function Account({ userName, userRole, avatar, onLogout }: AccountProps) {
   const [open, setOpen] = useState(false);
 
   const handleSaveName = async () => {
@@ -42,19 +41,19 @@ export function Account({ userName, userRole, avatar, onLogout, onSobre }: Accou
 
       {/* =====================================================================
          MENU DE CONTA — aparece apenas quando clica no nome/avatar
-         Contém as 3 opções: Minha conta, Configurações, Sair
+         Contém as 3 opções: Configuração, Perfil, Sair
          ===================================================================== */}
       {open && (
         <div className="menu-account">
           <div className="menu-section">
             <div className="menu-item" onClick={handleSaveName}>
               <span className="menu-icon">👤</span>
-              <span className="menu-label">Minha conta</span>
+              <span className="menu-label">Perfil</span>
             </div>
             <div className="menu-divider" />
-            <div className="menu-item" onClick={onSobre}>
-              <span className="menu-icon">ℹ️</span>
-              <span className="menu-label">Sobre</span>
+            <div className="menu-item" onClick={() => alert('Configurações da conta')}>
+              <span className="menu-icon">🔧</span>
+              <span className="menu-label">Configuração</span>
             </div>
             <div className="menu-divider" />
             <div className="menu-item danger" onClick={onLogout}>

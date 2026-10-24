@@ -95,25 +95,26 @@ body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-weight: 700;
   font-size: 1.125rem;
   letter-spacing: -0.02em;
   color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition);
 }
 
-.brand .mark {
+.brand:hover {
+  color: var(--accent);
+}
+
+.brand-icon {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--accent), #818cf8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1rem;
-  color: #fff;
-  box-shadow: 0 0 14px rgba(59, 130, 246, 0.35);
+  object-fit: cover;
+  border: 1px solid var(--rpg-border);
+  flex-shrink: 0;
 }
 
 .account {
