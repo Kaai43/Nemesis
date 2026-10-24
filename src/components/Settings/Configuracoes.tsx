@@ -1,64 +1,34 @@
-import { useState } from 'react';
+// ---------------------------------------------------------------------------
+// Configurações — tela preta "Em construção"
+// ---------------------------------------------------------------------------
+// Abre ao clicar em "Configurações" no menu de usuário.
+// Mostra uma tela preta com a mensagem "Em construção" no centro.
+// Será substituída por uma tela real de configurações futuramente.
+// ---------------------------------------------------------------------------
 
 interface ConfiguracoesProps {
+  /** Controla a visibilidade da tela. */
   isOpen: boolean;
+  /** Callback chamado ao fechar (clicar em qualquer lugar). */
   onClose: () => void;
 }
 
 /**
- * Esqueleto da tela de Configurações.
- * Ainda NÃO implementado — apenas estrutura visual.
+ * Tela de Configurações — placeholder "Em construção".
+ * Overlay preto total com texto centralizado.
  */
 export function Configuracoes({ isOpen, onClose }: ConfiguracoesProps) {
-  const [tema, setTema] = useState('preto');
-
+  // Não renderiza nada se fechado
   if (!isOpen) return null;
 
   return (
+    // Overlay preto — clicar em qualquer lugar fecha
     <div className="configuracoes-overlay" onClick={onClose}>
-      <div className="configuracoes-card" onClick={(e) => e.stopPropagation()}>
-        <div className="configuracoes-header">
-          <h2>Configurações</h2>
-          <div className="close-btn" onClick={onClose}>✕</div>
-        </div>
-
-        <div className="configuracoes-content">
-          <p className="configuracoes-desc">
-            Ajustes do aplicativo. Esta seção está em desenvolvimento e será
-            integrada em uma próxima versão.
-          </p>
-
-          <div className="configuracoes-group">
-            <label className="configuracoes-label">Tema</label>
-            <select
-              className="configuracoes-select"
-              value={tema}
-              onChange={(e) => setTema(e.target.value)}
-              disabled
-            >
-              <option value="preto">Preto</option>
-              <option value="claro">Claro (em breve)</option>
-            </select>
-          </div>
-
-          <div className="configuracoes-group">
-            <label className="configuracoes-label">Notificações</label>
-            <div className="configuracoes-placeholder">
-              Em breve — alertas de sessão de estudo
-            </div>
-          </div>
-
-          <div className="configuracoes-group">
-            <label className="configuracoes-label">Idioma</label>
-            <div className="configuracoes-placeholder">
-              Em breve — Português (Brasil)
-            </div>
-          </div>
-
-          <p className="configuracoes-note">
-            Esqueleto — funcionalidades serão conectadas ao backend futuramente.
-          </p>
-        </div>
+      {/* Texto centralizado "Em construção" */}
+      <div className="configuracoes-em-construcao">
+        <span className="configuracoes-emoji">🚧</span>
+        <h2>Em construção</h2>
+        <p>Esta funcionalidade estará disponível em breve.</p>
       </div>
     </div>
   );
