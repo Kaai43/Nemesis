@@ -23,37 +23,40 @@ export function Account({ userName, userRole, avatar, onLogout }: AccountProps) 
 
   return (
     <div className="account-wrapper">
-      {/* Botão da conta — clicar abre o menu com as 3 opções */}
+      {/* Indicador para baixo — abre o menu de usuário */}
       <div
-        className={`account ${open ? 'active' : ''}`}
+        className={`account-indicator ${open ? 'active' : ''}`}
         onClick={(e) => {
           e.stopPropagation();
           setOpen(!open);
         }}
       >
-        <div className="avatar">{avatar}</div>
-        <div className="info">
-          <div className="name">{userName}</div>
-          <div className="role">{userRole}</div>
-        </div>
-        <div className="chevron">▾</div>
+        <div className="indicator-arrow">▾</div>
       </div>
 
       {/* =====================================================================
-         MENU DE CONTA — aparece apenas quando clica no nome/avatar
-         Contém as 3 opções: Configuração, Perfil, Sair
+         MENU DE USUÁRIO — leque de opções ao clicar no indicador
+         Acima das opções: ícone do usuário + nome
          ===================================================================== */}
       {open && (
-        <div className="menu-account">
-          <div className="menu-section">
+        <div className="menu-usuario">
+          <div className="menu-usuario-header">
+            <div className="user-avatar">{avatar}</div>
+            <div className="user-info">
+              <div className="user-name">{userName}</div>
+              <div className="user-role">{userRole}</div>
+            </div>
+          </div>
+
+          <div className="menu-usuario-secao">
             <div className="menu-item" onClick={handleSaveName}>
               <span className="menu-icon">👤</span>
-              <span className="menu-label">Perfil</span>
+              <span className="menu-label">Usuário</span>
             </div>
             <div className="menu-divider" />
             <div className="menu-item" onClick={() => alert('Configurações da conta')}>
-              <span className="menu-icon">🔧</span>
-              <span className="menu-label">Configuração</span>
+              <span className="menu-icon">⚙️</span>
+              <span className="menu-label">Configurações</span>
             </div>
             <div className="menu-divider" />
             <div className="menu-item danger" onClick={onLogout}>

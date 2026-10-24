@@ -15,7 +15,12 @@ export function Sobre({ isOpen, onClose }: SobreProps) {
         </div>
 
         <div className="sobre-content">
-          <div className="sobre-icon">🎯</div>
+          {/* Ícone principal acima do texto */}
+          <img
+            src="/icones/sobre/iconesobre.jpg"
+            alt="Ícone Sobre"
+            className="sobre-icon-img"
+          />
           <h3>Controlador Extremo de Estudos</h3>
           <p>
             O Nemesis é um aplicativo desktop nativo desenvolvido em Rust + Tauri v2 +
@@ -26,19 +31,35 @@ export function Sobre({ isOpen, onClose }: SobreProps) {
           <div className="sobre-divider" />
 
           <div className="sobre-feature">
-            <span className="feature-icon">🌙</span>
-            <span>Tema escuro como padrão para reduzir o cansaço visual</span>
+            <img
+              src="/icones/sobre/escuro.jpg"
+              alt="Tema escuro"
+              className="feature-img"
+            />
+            <span>Tema preto como padrão para reduzir o cansaço visual</span>
           </div>
           <div className="sobre-feature">
-            <span className="feature-icon">📊</span>
+            <img
+              src="/icones/sobre/estatistica.jpg"
+              alt="Progresso RPG"
+              className="feature-img"
+            />
             <span>Painel de progresso RPG (nível, XP, ouro e vida)</span>
           </div>
           <div className="sobre-feature">
-            <span className="feature-icon">💾</span>
+            <img
+              src="/icones/sobre/banco.jpg"
+              alt="Persistência"
+              className="feature-img"
+            />
             <span>Persistência local com banco de dados SQLite</span>
           </div>
           <div className="sobre-feature">
-            <span className="feature-icon">🔒</span>
+            <img
+              src="/icones/sobre/seguranca.jpg"
+              alt="Segurança"
+              className="feature-img"
+            />
             <span>Todas as informações ficam apenas no seu computador</span>
           </div>
 

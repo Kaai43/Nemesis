@@ -1,33 +1,33 @@
 /* ==========================================================================
-   Nemesis — Tema escuro padrão (dark theme)
+   Nemesis — Tema preto puro (sem cinza)
    ========================================================================== */
 :root {
-  /* Cores principais */
-  --bg: #0b0e13;
-  --bg-surface: #11161e;
-  --bg-surface-lift: #161d27;
-  --bg-hover: #1c2531;
+  /* Cores principais — preto puro */
+  --bg: #000000;
+  --bg-surface: #0a0a0a;
+  --bg-surface-lift: #121212;
+  --bg-hover: #1a1a1a;
 
-  /* Texto */
-  --text-primary: #e6e9ee;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-accent: #7dd3fc;
+  /* Texto destacado */
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #888888;
+  --text-accent: #ffd700;
 
   /* Acentos */
-  --accent: #3b82f6;
-  --accent-hover: #60a5fa;
-  --accent-soft: rgba(59, 130, 246, 0.12);
+  --accent: #ffd700;
+  --accent-hover: #ffe666;
+  --accent-soft: rgba(255, 215, 0, 0.12);
 
   /* RPG */
-  --rpg-gold: #fbbf24;
+  --rpg-gold: #ffd700;
   --rpg-xp: #a855f7;
   --rpg-hp: #ef4444;
-  --rpg-border: #1f2937;
+  --rpg-border: #333333;
 
   /* Utilitários */
   --radius: 10px;
-  --shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
   --transition: all 0.2s ease;
 }
 
@@ -76,22 +76,7 @@ body {
   gap: 16px;
 }
 
-/* Ícone do app no canto superior esquerdo */
-.app-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.app-icon-img {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  object-fit: cover;
-  border: 1px solid var(--rpg-border);
-}
-
+/* Brand — ícone Nemesis + nome, clicável abre Sobre */
 .brand {
   display: flex;
   align-items: center;
@@ -117,84 +102,8 @@ body {
   flex-shrink: 0;
 }
 
-.account {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--bg-surface-lift);
-  border: 1px solid var(--rpg-border);
-  border-radius: 999px;
-  padding: 4px 12px 4px 8px;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.account:hover {
-  border-color: var(--accent);
-  background: var(--bg-hover);
-}
-
-.account .avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #4f46e5, #ec4899);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: #fff;
-  flex-shrink: 0;
-}
-
-.account .info {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-
-.account .name {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 150px;
-}
-
-.account .role {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 150px;
-}
-
-.account .chevron {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--rpg-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.65rem;
-  color: var(--text-secondary);
-  flex-shrink: 0;
-  margin-left: 2px;
-}
-
-.account.active {
-  border-color: var(--accent);
-  background: var(--bg-hover);
-}
-
-/* Botão de opções */
-.options-btn {
+/* Indicador para baixo — abre o menu de usuário */
+.account-indicator {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -205,34 +114,162 @@ body {
   border-radius: 10px;
   cursor: pointer;
   transition: var(--transition);
+}
+
+.account-indicator:hover {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+}
+
+.account-indicator.active {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+}
+
+.indicator-arrow {
+  font-size: 0.75rem;
   color: var(--text-secondary);
-  font-size: 1.1rem;
 }
 
-.options-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--bg-hover);
-}
-
-.options-btn.active {
-  border-color: var(--accent);
-  background: var(--bg-hover);
-}
-
-.options-icon {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Grupo de conta + opções na topbar */
+/* Grupo da conta na topbar */
 .account-group {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+}
+
+/* ==========================================================================
+   Menu de Usuário — leque de opções ao clicar no indicador
+   ========================================================================== */
+.menu-usuario {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 240px;
+  background: var(--bg-surface);
+  border: 2px solid #000000;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+  z-index: 100;
+  animation: fadeIn 0.15s ease;
+  overflow: hidden;
+}
+
+.menu-usuario-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-surface-lift);
+  border-bottom: 1px solid var(--rpg-border);
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #ffe666);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #000;
+  border: 2px solid #fff;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-usuario-secao {
+  padding: 8px 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: var(--transition);
+  width: 100%;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.menu-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.menu-item.disabled:hover {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.menu-item.danger {
+  color: var(--rpg-hp);
+}
+
+.menu-item.danger:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--rpg-hp);
+}
+
+.menu-icon {
+  font-size: 1.1rem;
+  width: 24px;
+  text-align: center;
+}
+
+.menu-label {
+  flex: 1;
+  font-weight: 500;
+}
+
+.menu-divider {
+  height: 1px;
+  background: var(--rpg-border);
+  margin: 4px 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ==========================================================================
@@ -625,7 +662,7 @@ body {
 }
 
 /* ==========================================================================
-   Sobre — aba aberta ao clicar em "Sobre" no menu conta
+   Sobre — aba aberta ao clicar no ícone Nemesis
    ========================================================================== */
 .sobre-overlay {
   position: fixed;
@@ -633,7 +670,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 300;
   display: flex;
   align-items: center;
@@ -645,13 +682,14 @@ body {
   background: var(--bg-surface);
   border: 2px solid #000000;
   border-radius: 12px;
-  width: 420px;
-  max-width: 85vw;
-  max-height: 85vh;
+  width: 440px;
+  max-width: 90vw;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
   animation: fadeIn 0.2s ease;
+  overflow: hidden;
 }
 
 .sobre-header {
@@ -660,6 +698,7 @@ body {
   justify-content: space-between;
   padding: 16px 20px;
   border-bottom: 1px solid var(--rpg-border);
+  background: var(--bg-surface-lift);
 }
 
 .sobre-header h2 {
@@ -692,30 +731,36 @@ body {
 }
 
 .sobre-content {
-  padding: 20px;
+  padding: 24px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
-.sobre-icon {
-  font-size: 3rem;
-  text-align: center;
+.sobre-icon-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 2px solid var(--rpg-border);
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
 }
 
 .sobre-content h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 800;
   color: var(--text-primary);
-  margin: 0 0 8px 0;
+  margin: 0;
   text-align: center;
 }
 
 .sobre-content p {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.6;
   text-align: center;
   margin: 0;
 }
@@ -723,22 +768,26 @@ body {
 .sobre-divider {
   height: 1px;
   background: var(--rpg-border);
-  margin: 8px 0;
+  margin: 12px 0;
 }
 
 .sobre-feature {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
+  gap: 12px;
+  font-size: 0.95rem;
   color: var(--text-secondary);
-  margin: 4px 0;
+  margin: 0;
+  padding: 8px 0;
 }
 
-.feature-icon {
-  font-size: 1.1rem;
-  width: 24px;
-  text-align: center;
+.feature-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--rpg-border);
+  flex-shrink: 0;
 }
 
 .sobre-version {
@@ -746,6 +795,24 @@ body {
   color: var(--text-muted);
   text-align: center;
   margin-top: 8px;
+}
+
+/* Responsivo básico */
+@media (max-width: 900px) {
+  .main {
+    flex-direction: column;
+    height: auto;
+    padding: 24px 16px;
+    gap: 30px;
+    overflow-y: auto;
+  }
+  .rpg-panel {
+    width: 100%;
+    max-width: none;
+  }
+  .hero h1 {
+    font-size: 2.2rem;
+  }
 }
 
 /* Responsivo básico */
