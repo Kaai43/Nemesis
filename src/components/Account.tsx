@@ -6,11 +6,11 @@ interface AccountProps {
   userRole: string;
   avatar: string;
   onLogout: () => void;
+  onSobre: () => void;
 }
 
-export function Account({ userName, userRole, avatar, onLogout }: AccountProps) {
+export function Account({ userName, userRole, avatar, onLogout, onSobre }: AccountProps) {
   const [open, setOpen] = useState(false);
-  const [menu, setMenu] = useState<'account' | 'options' | null>(null);
 
   const handleSaveName = async () => {
     try {
@@ -24,18 +24,12 @@ export function Account({ userName, userRole, avatar, onLogout }: AccountProps) 
 
   return (
     <div className="account-wrapper">
-      {/* Botão da conta (abre menu conta) */}
+      {/* Botão da conta — clicar abre o menu com as 3 opções */}
       <div
-        className={`account ${open && menu === 'account' ? 'active' : ''}`}
+        className={`account ${open ? 'active' : ''}`}
         onClick={(e) => {
           e.stopPropagation();
-          if (menu === 'account') {
-            setOpen(false);
-            setMenu(null);
-          } else {
-            setOpen(true);
-            setMenu('account');
-          }
+          setOpen(!open);
         }}
       >
         <div className="avatar">{avatar}</div>
@@ -46,28 +40,11 @@ export function Account({ userName, userRole, avatar, onLogout }: AccountProps) 
         <div className="chevron">▾</div>
       </div>
 
-      {/* Botão de opções (abre menu opções - apenas aparência) */}
-      <div
-        className={`options-btn ${open && menu === 'options' ? 'active' : ''}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          if (menu === 'options') {
-            setOpen(false);
-            setMenu(null);
-          } else {
-            setOpen(true);
-            setMenu('options');
-          }
-        }}
-        title="Opções"
-      >
-        <div className="options-icon">⚙</div>
-      </div>
-
       {/* =====================================================================
-         MENU DE CONTA — aparência e botões funcionais
+         MENU DE CONTA — aparece apenas quando clica no nome/avatar
+         Contém as 3 opções: Minha conta, Configurações, Sair
          ===================================================================== */}
-      {open && menu === 'account' && (
+      {open && (
         <div className="menu-account">
           <div className="menu-section">
             <div className="menu-item" onClick={handleSaveName}>
@@ -75,38 +52,14 @@ export function Account({ userName, userRole, avatar, onLogout }: AccountProps) 
               <span className="menu-label">Minha conta</span>
             </div>
             <div className="menu-divider" />
-            <div className="menu-item" onClick={() => alert('Configurações da conta')}>
-              <span className="menu-icon">🔧</span>
-              <span className="menu-label">Configurações</span>
+            <div className="menu-item" onClick={onSobre}>
+              <span className="menu-icon">ℹ️</span>
+              <span className="menu-label">Sobre</span>
             </div>
             <div className="menu-divider" />
             <div className="menu-item danger" onClick={onLogout}>
               <span className="menu-icon">🚪</span>
               <span className="menu-label">Sair</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* =====================================================================
-         MENU DE OPÇÕES — apenas aparência (não funcional nesta versão)
-         ===================================================================== */}
-      {open && menu === 'options' && (
-        <div className="menu-options">
-          <div className="menu-section">
-            <div className="menu-item disabled">
-              <span className="menu-icon">🔔</span>
-              <span className="menu-label">Notificações</span>
-            </div>
-            <div className="menu-divider" />
-            <div className="menu-item disabled">
-              <span className="menu-icon">🎨</span>
-              <span className="menu-label">Tema</span>
-            </div>
-            <div className="menu-divider" />
-            <div className="menu-item disabled">
-              <span className="menu-icon">🔊</span>
-              <span className="menu-label">Som</span>
             </div>
           </div>
         </div>

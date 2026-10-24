@@ -4,7 +4,7 @@ import { Account } from './components/Account';
 import { Hero } from './components/Hero';
 import { RpgPanel } from './components/RpgPanel';
 import { Welcome } from './components/Welcome';
-import { Options } from './components/Options';
+import { Sobre } from './components/Sobre';
 import './components/Welcome.css';
 
 interface AppInfo {
@@ -33,7 +33,7 @@ export default function App() {
   });
   const [userName, setUserName] = useState<string | null>(null);
   const [hasSeenWelcome, setHasSeenWelcome] = useState<boolean | null>(null);
-  const [optionsOpen, setOptionsOpen] = useState(false);
+  const [sobreOpen, setSobreOpen] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -85,7 +85,7 @@ export default function App() {
     }
     setUserName(null);
     setHasSeenWelcome(false);
-    setOptionsOpen(false);
+    setSobreOpen(false);
   };
 
   // Se ainda não carregou o estado de welcome, não renderiza nada
@@ -100,18 +100,24 @@ export default function App() {
       ) : (
         <>
           <header className="topbar">
+            {/* Ícone do app no canto superior esquerdo */}
+            <div className="app-icon">
+              <img src="/nemesis.jpg" alt="Nemesis" className="app-icon-img" />
+            </div>
+
             <div className="brand">
               <div className="mark">N</div>
               <div>{appInfo ? appInfo.name : 'Nemesis'}</div>
             </div>
+
             <div className="account-group">
               <Account
                 userName={userName || 'Usuário'}
                 userRole="Jogador"
                 avatar={userName ? userName.charAt(0).toUpperCase() : 'U'}
                 onLogout={handleLogout}
+                onSobre={() => setSobreOpen(true)}
               />
-              <Options isOpen={optionsOpen} onClose={() => setOptionsOpen(false)} />
             </div>
           </header>
 
@@ -126,6 +132,9 @@ export default function App() {
               maxHp={game.max_hp}
             />
           </main>
+
+          {/* Sobre — aba aberta ao clicar no menu conta > Sobre */}
+          <Sobre isOpen={sobreOpen} onClose={() => setSobreOpen(false)} />
         </>
       )}
     </div>
