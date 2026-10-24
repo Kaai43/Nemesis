@@ -6,8 +6,10 @@ import { RpgPanel } from './components/RpgPanel';
 import { Welcome } from './components/Welcome';
 import { Sobre } from './components/Sobre';
 import { CriarNovoPerfil } from './components/NewProfile/CriarNovoPerfil';
+import { Configuracoes } from './components/Settings/Configuracoes';
 import './components/Welcome.css';
 import './components/NewProfile/CriarNovoPerfil.css';
+import './components/Settings/Configuracoes.css';
 
 interface AppInfo {
   name: string;
@@ -37,6 +39,7 @@ export default function App() {
   const [hasSeenWelcome, setHasSeenWelcome] = useState<boolean | null>(null);
   const [sobreOpen, setSobreOpen] = useState(false);
   const [criarNovoPerfilOpen, setCriarNovoPerfilOpen] = useState(false);
+  const [configuracoesOpen, setConfiguracoesOpen] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -78,19 +81,6 @@ export default function App() {
     setHasSeenWelcome(true);
   };
 
-  const handleLogout = () => {
-    // Limpa dados locais e volta para a tela de boas-vindas
-    try {
-      localStorage.removeItem('nemesis.seenWelcome');
-      localStorage.removeItem('nemesis.userName');
-    } catch {
-      // ignorar
-    }
-    setUserName(null);
-    setHasSeenWelcome(false);
-    setSobreOpen(false);
-  };
-
   // Se ainda não carregou o estado de welcome, não renderiza nada
   if (hasSeenWelcome === null) {
     return null;
@@ -113,7 +103,7 @@ export default function App() {
                 userName={userName || 'Usuário'}
                 userRole="Jogador"
                 avatar={userName ? userName.charAt(0).toUpperCase() : 'U'}
-                onLogout={handleLogout}
+                onConfiguracoes={() => setConfiguracoesOpen(true)}
               />
             </div>
           </header>
@@ -137,6 +127,12 @@ export default function App() {
           <CriarNovoPerfil
             isOpen={criarNovoPerfilOpen}
             onClose={() => setCriarNovoPerfilOpen(false)}
+          />
+
+          {/* Configurações — esqueleto, ainda não implementado */}
+          <Configuracoes
+            isOpen={configuracoesOpen}
+            onClose={() => setConfiguracoesOpen(false)}
           />
         </>
       )}

@@ -102,6 +102,11 @@ body {
   flex-shrink: 0;
 }
 
+/* Wrapper da conta — contexto de posicionamento para o menu dropdown */
+.account-wrapper {
+  position: relative;
+}
+
 /* Indicador para baixo — abre o menu de usuário */
 .account-indicator {
   display: flex;

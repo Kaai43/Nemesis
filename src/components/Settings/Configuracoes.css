@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Configurações — esqueleto (não integrado ainda)
+   ========================================================================== */
+.configuracoes-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.configuracoes-card {
+  background: var(--bg-surface);
+  border: 2px solid #000000;
+  border-radius: 12px;
+  width: 440px;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+  animation: fadeIn 0.2s ease;
+  overflow: hidden;
+}
+
+.configuracoes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--rpg-border);
+  background: var(--bg-surface-lift);
+}
+
+.configuracoes-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.configuracoes-content {
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.configuracoes-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
+}
+
+.configuracoes-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.configuracoes-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.configuracoes-select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--rpg-border);
+  border-radius: var(--radius);
+  background: var(--bg-surface-lift);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.configuracoes-placeholder {
+  padding: 10px 14px;
+  border: 1px dashed var(--rpg-border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.configuracoes-note {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 4px;
+}
