@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 interface SobreProps {
   isOpen: boolean;
   onClose: () => void;
@@ -17,7 +15,7 @@ export function Sobre({ isOpen, onClose }: SobreProps) {
         </div>
 
         <div className="sobre-content">
-          <div className="sobre-icon">🎯</h2>
+          <div className="sobre-icon">🎯</div>
           <h3>Controlador Extremo de Estudos</h3>
           <p>
             O Nemesis é um aplicativo desktop nativo desenvolvido em Rust + Tauri v2 +
