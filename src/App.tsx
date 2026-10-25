@@ -130,7 +130,7 @@ export default function App() {
             {/* Brand: ícone nemesis.jpg + nome — clique abre Sobre */}
             <div className="brand" onClick={() => setSobreOpen(true)}>
               <img src="/nemesis.jpg" alt="Nemesis" className="brand-icon" />
-              <div>{appInfo ? appInfo.name : 'Nemesis'}</div>
+              <div>{appInfo ? appInfo.name.replace(/^n/i, 'N') : 'Nemesis'}</div>
             </div>
 
             {/* Menu de usuário: indicador ▾ abre dropdown com 3 opções */}
