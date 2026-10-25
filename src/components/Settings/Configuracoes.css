@@ -1,49 +1,45 @@
 /* ==========================================================================
-   Configurações — tela preta "Em construção"
+   Configurações — esqueleto (apenas fundo preto + botão X)
    ========================================================================== */
 
-/* Overlay preto cobrindo toda a tela */
+/* Overlay preto cobrindo toda a tela. Clique no fundo NÃO fecha. */
 .configuracoes-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   background: #000000;
   z-index: 500;
+  animation: fadeIn 0.2s ease;
+}
+
+/* Botão X no canto superior direito — única saída da tela */
+.configuracoes-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-hover);
+  border: 1px solid var(--rpg-border);
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  animation: fadeIn 0.2s ease;
+  transition: var(--transition);
 }
 
-/* Conteúdo centralizado */
-.configuracoes-em-construcao {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-/* Ícone grande */
-.configuracoes-emoji {
-  font-size: 4rem;
-}
-
-/* Título "Em construção" */
-.configuracoes-em-construcao h2 {
-  font-size: 2rem;
-  font-weight: 800;
+.configuracoes-close:hover {
+  background: var(--rpg-hp);
+  border-color: var(--rpg-hp);
   color: #ffffff;
-  margin: 0;
-  letter-spacing: -0.02em;
 }
 
-/* Subtítulo */
-.configuracoes-em-construcao p {
-  font-size: 1rem;
-  color: #cccccc;
-  margin: 0;
+.configuracoes-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
